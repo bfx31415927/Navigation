@@ -4,25 +4,21 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import com.example.fullfeaturedhosts.SharedDataViewModel
+import com.example.fullfeaturedhosts.NavigationParameters
 
 @Composable
 fun WelcomeScreen(
-    parameters: Map<String, Any>,
-    viewModel: SharedDataViewModel,
+    viewModel: SharedDataViewModel,  // Получаем тот же экземпляр
     onBack: () -> Unit
 ) {
-    // Сохраняем параметры с учётом поворота экрана
-    val localParams by rememberSaveable(parameters.keys.toList()) {
-        mutableStateOf(parameters)
-    }
+    val currentParams = viewModel.parameters.value  // Читаем из единого источника
 
     Column {
         Text("Welcome Screen")
-        Text("Received params: $localParams")
+        currentParams?.let { params ->
+            Text("Current params: $params")  // Всегда актуальные данные
+        } ?: Text("No parameters available")
         Button(onClick = onBack) {
             Text("Back to Home")
         }

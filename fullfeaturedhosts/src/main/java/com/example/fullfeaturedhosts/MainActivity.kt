@@ -18,9 +18,9 @@ import androidx.navigation.navArgument
 import com.example.fullfeaturedhosts.screens.HomeScreen
 import com.example.fullfeaturedhosts.screens.WelcomeScreen
 import com.example.fullfeaturedhosts.ui.theme.FullFeaturedHostsTheme
-import com.example.fullfeaturedhosts.utils.decodeParams
-import com.example.fullfeaturedhosts.utils.encodeParams
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,44 +38,35 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
+    // Создаём ViewModel ОДИН РАЗ здесь
+    val sharedViewModel: SharedDataViewModel = hiltViewModel()
 
     NavHost(navController, startDestination = NavRoutes.Home.route) {
         composable(NavRoutes.Home.route) { backStackEntry ->
-            val viewModel: SharedDataViewModel = hiltViewModel()
+            // Передаём sharedViewModel в HomeScreen
             HomeScreen(
-                viewModel = viewModel,
+                viewModel = sharedViewModel,
                 onNavigateToWelcome = { params ->
-                    navController.navigate(
-                        "${NavRoutes.Welcome.route}?params=${encodeParams(params)}"
-                    )
-                }
-            )
+                    sharedViewModel.setParameters(params)
+                    navController.navigate(NavRoutes.Welcome.route)
+                })
         }
 
-        composable(
-            route = "${NavRoutes.Welcome.route}?params={params}",
-            arguments = listOf(navArgument("params") { type = NavType.StringType })
-        ) { backStackEntry ->
-            val paramsString = backStackEntry.arguments?.getString("params")
-            val parsedParams = decodeParams(paramsString)
-            val viewModel: SharedDataViewModel = hiltViewModel()
-
-            // Сохраняем параметры в ViewModel
-            viewModel.setParameters(parsedParams)
-
+        composable(NavRoutes.Welcome.route) { backStackEntry ->
+            // Передаём тот же sharedViewModel в WelcomeScreen
             WelcomeScreen(
-                parameters = parsedParams,
-                viewModel = viewModel,
+                viewModel = sharedViewModel,
                 onBack = { navController.popBackStack() }
             )
         }
     }
 }
 
-    @Preview(showBackground = true)
-    @Composable
-    fun Preview() {
-        FullFeaturedHostsTheme {
-            MainScreen()
-        }
+
+@Preview(showBackground = true)
+@Composable
+fun Preview() {
+    FullFeaturedHostsTheme {
+        MainScreen()
     }
+}
