@@ -38,26 +38,18 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
-    // Создаём ViewModel ОДИН РАЗ здесь
+
     val sharedViewModel: SharedDataViewModel = hiltViewModel()
 
     NavHost(navController, startDestination = NavRoutes.Home.route) {
         composable(NavRoutes.Home.route) { backStackEntry ->
-            // Передаём sharedViewModel в HomeScreen
-            HomeScreen(
-                viewModel = sharedViewModel,
-                onNavigateToWelcome = { params ->
-                    sharedViewModel.setParameters(params)
-                    navController.navigate(NavRoutes.Welcome.route)
-                })
+            HomeScreen(sharedViewModel)
+                { navController.navigate(NavRoutes.Welcome.route)}
         }
 
         composable(NavRoutes.Welcome.route) { backStackEntry ->
-            // Передаём тот же sharedViewModel в WelcomeScreen
-            WelcomeScreen(
-                viewModel = sharedViewModel,
-                onBack = { navController.popBackStack() }
-            )
+            WelcomeScreen(sharedViewModel)
+                { navController.popBackStack() }
         }
     }
 }
