@@ -34,7 +34,7 @@ fun Welcome(navController: NavHostController, userName: String?) {
                     //popUpTo(NavRoutes.Home.route)
                     //если надо по BACK попасть в стартовый экран (в данном случае на Home)
                     popUpTo(navController.graph.findStartDestination().id){
-                       inclusive = true//означает, что из стека удалится и стартовый экран тоже (Home в данном случае)
+//                       inclusive = true//означает, что из стека удалится и стартовый экран тоже (Home в данном случае)
                                         // (по умолчанию false, при котором стартовый экран остается в стеке)
                     }
                 }

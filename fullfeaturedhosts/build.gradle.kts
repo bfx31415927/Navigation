@@ -9,13 +9,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.navigationdemo"
+    namespace = "com.example.fullfeaturedhosts"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.example.navigationdemo"
+        applicationId = "com.example.fullfeaturedhosts"
         minSdk = 26
         targetSdk = 36
         versionCode = 1
