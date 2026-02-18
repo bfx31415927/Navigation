@@ -22,4 +22,5 @@ dependencyResolutionManagement {
 rootProject.name = "Navigation"
 include(":app")
 include(":navigationdemo")
+include(":navigationdemo1")
 include(":fullfeaturedhosts")
