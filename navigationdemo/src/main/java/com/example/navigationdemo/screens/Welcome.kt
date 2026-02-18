@@ -1,6 +1,5 @@
 package com.example.navigationdemo.screens
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -33,9 +32,9 @@ fun Welcome(navController: NavHostController, userName: String?) {
                     //если надо по BACK попасть в предыдущий экран (на Home)
                     //popUpTo(NavRoutes.Home.route)
                     //если надо по BACK попасть в стартовый экран (в данном случае на Home)
-                    popUpTo(navController.graph.findStartDestination().id){
+                    popUpTo(navController.graph.findStartDestination().id) {
 //                       inclusive = true//означает, что из стека удалится и стартовый экран тоже (Home в данном случае)
-                                        // (по умолчанию false, при котором стартовый экран остается в стеке)
+                        // (по умолчанию false, при котором стартовый экран остается в стеке)
                     }
                 }
             }) {
