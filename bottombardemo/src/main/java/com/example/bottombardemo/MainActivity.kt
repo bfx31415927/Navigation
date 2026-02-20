@@ -34,13 +34,11 @@ import com.example.bottombardemo.ui.theme.MainScreenTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //если нижнюю строку убрать,
+        //то и-за белого фона будет почти не видна верхняя панель
         enableEdgeToEdge()
         setContent {
-            MainScreenTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainScreen()
-                }
-            }
+            MainScreen()
         }
     }
 }
@@ -58,7 +56,7 @@ fun MainScreen() {
                         horizontalArrangement = Arrangement.Center,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                            Text(text = "Bottom Navigation Demo")
+                        Text(text = "Bottom Navigation Demo")
                     }
                 }
             )
